@@ -14,11 +14,13 @@ Changelog:
 + v1.1 -- Added colour option for clock hands (07.10.2009)
 + v1.0 -- Original release (30.09.2009)
 ]]
-
+default_ellipse_xscale = 1.1
+default_ellipse_yscale = 0.6
 default_color = 0x050c0e
 default_alpha = 0.35
-default_center_x = 500
-default_center_y = 500
+default_center_x = 500*(1/default_ellipse_xscale)
+default_center_y = 500*(1/default_ellipse_yscale)
+
 
 settings_table = {
 	{
@@ -295,12 +297,12 @@ function draw_ring(cr,t,pt)
 	local t_arc=t*(angle_f-angle_0)
 
 	-- Draw background ring
-
+	
 	cairo_arc(cr,xc,yc,ring_r,angle_0,angle_f)
 	cairo_set_source_rgba(cr,rgb_to_r_g_b(bgc,bga))
 	cairo_set_line_width(cr,ring_w)
 	cairo_stroke(cr)
-
+	
 	-- Draw indicator ring
 
 	if pt['backwards'] then
@@ -370,6 +372,7 @@ function draw_clock_gauges(cr, xc, yc)
 	
 
 	cairo_set_line_width(cr, 1)
+	
 	for i = 0, clock_gauges_num-1 do
 		local gx_i = xc + ((i%2 == 0) and innerMax or innerMin)*clock_r*math.sin(i*step)
 		local gy_i = yc - ((i%2 == 0) and innerMax or innerMin)*clock_r*math.cos(i*step)
@@ -400,7 +403,7 @@ function conky_clock_rings()
 		value=tonumber(str)
 		if value == nil then value = 0 end
 		pct=value/pt['max']
-
+		
 		draw_ring(cr,pct,pt)
 	end
 
@@ -413,7 +416,7 @@ function conky_clock_rings()
 
 	local updates=conky_parse('${updates}')
 	update_num=tonumber(updates)
-
+	cairo_scale(cr,default_ellipse_xscale,default_ellipse_yscale)
 	if update_num > 2 then
 		for i in pairs(settings_table) do
 			setup_rings(cr,settings_table[i])
