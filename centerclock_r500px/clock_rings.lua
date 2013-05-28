@@ -169,7 +169,7 @@ settings_table = {
 		thickness = 10,
 		start_angle = 225,
 		end_angle = 315,
-		backwards = true
+		backwards = false
 	},
 	--[[{
 		name = 'exec',
@@ -341,7 +341,7 @@ function draw_clock_hands(cr,xc,yc)
 	cairo_move_to(cr,xh_i,yh_i)
 	cairo_line_to(cr,xh_o,yh_o)
 
-	cairo_set_line_width(cr,5)
+	cairo_set_line_width(cr,10)
 	cairo_stroke(cr)
 
 	-- Draw minute hand
@@ -359,7 +359,7 @@ function draw_clock_hands(cr,xc,yc)
 	cairo_move_to(cr,xm_i,ym_i)
 	cairo_line_to(cr,xm_o,ym_o)
 
-	cairo_set_line_width(cr,3)
+	cairo_set_line_width(cr,5)
 	cairo_stroke(cr)
 end
 
