@@ -19,9 +19,9 @@ own_window_class Conky
 own_window yes
 own_window_type normal
 own_window_transparent yes
-own_window_argb_visual no
+own_window_argb_visual yes
 own_window_argb_value 255
-#own_window_colour white
+own_window_colour black 
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 
 border_inner_margin 0
@@ -60,5 +60,3 @@ lua_draw_hook_pre clock_rings
  
 TEXT
 #${image ~/.config/conky/arch_logo.png -p 215,660}
-#${exec feh --bg-scale "$(sed -n 's/wallpaper=//p' ~/.kde4/share/config/plasma-desktop-appletsrc)"}
-${exec feh --bg-scale /home/otte/Dropbox/pictures/wallpapers/arch/green.jpg}
