@@ -36,12 +36,7 @@ settings_table = {
 		thickness = 5,
 		start_angle = 240,
 		end_angle = 300,
-		from_middle = true,
-		backwards = false,
-		title = '',
-		draw_gauge_min = false,
-		draw_gauge_max = false,
-		draw_gauge_length = 20
+		backwards = false
 	},
 	{
 		name = 'cpu',
@@ -55,8 +50,7 @@ settings_table = {
 		radius = 312,
 		thickness = 5,
 		start_angle = 240,
-		end_angle = 300,
-		from_middle = true
+		end_angle = 300
 	},
 	{
 		name = 'cpu',
@@ -71,7 +65,6 @@ settings_table = {
 		thickness = 5,
 		start_angle = 240,
 		end_angle = 300,
-		from_middle = true,
 		backwards = false
 	},
 	{
@@ -86,12 +79,7 @@ settings_table = {
 		radius = 300,
 		thickness = 5,
 		start_angle = 240,
-		end_angle = 300,
-		from_middle = true,
-		title = '',
-		draw_gauge_min = false,
-		draw_gauge_max = true,
-		draw_gauge_length = 50
+		end_angle = 300
 	},
 	{
 		name = 'cpu',
@@ -106,12 +94,7 @@ settings_table = {
 		thickness = 5,
 		start_angle = 60,
 		end_angle = 120,
-		from_middle = true,
-		backwards = true,
-		title = '',
-		draw_gauge_min = false,
-		draw_gauge_max = true,
-		draw_gauge_length = 50
+		backwards = true
 	},
 	{
 		name = 'cpu',
@@ -126,7 +109,6 @@ settings_table = {
 		thickness = 5,
 		start_angle = 60,
 		end_angle = 120,
-		from_middle = true,
 		backwards = true
 	},
 	{
@@ -142,7 +124,6 @@ settings_table = {
 		thickness = 5,
 		start_angle = 60,
 		end_angle = 120,
-		from_middle = true,
 		backwards = true
 	},
 	{
@@ -158,7 +139,6 @@ settings_table = {
 		thickness = 5,
 		start_angle = 60,
 		end_angle = 120,
-		from_middle = true,
 		backwards = true
 	},
 	{
@@ -170,16 +150,11 @@ settings_table = {
 		fg_colour = default_color,
 		fg_alpha = default_alpha,
 		x = default_center_x, y = default_center_y,
-		radius = 328,
+		radius = 333,
 		thickness = 10,
 		start_angle = 45,
 		end_angle = 135,
-		from_middle = true,
-		backwards = true,
-		title = '',
-		draw_gauge_min = false,
-		draw_gauge_max = true,
-		draw_gauge_length = 50
+		backwards = true
 	},
 	{
 		name = 'swapperc',
@@ -190,16 +165,11 @@ settings_table = {
 		fg_colour = default_color,
 		fg_alpha = default_alpha,
 		x = default_center_x, y = default_center_y,
-		radius = 328,
+		radius = 333,
 		thickness = 10,
 		start_angle = 225,
 		end_angle = 315,
-		from_middle = true,
-		backwards = false,
-		title = '',
-		draw_gauge_min = false,
-		draw_gauge_max = true,
-		draw_gauge_length = 50
+		backwards = false
 	},
 	--[[{
 		name = 'exec',
@@ -238,16 +208,11 @@ settings_table = {
 		fg_colour = default_color,
 		fg_alpha = default_alpha,
 		x = default_center_x, y = default_center_y,
-		radius = 343,
+		radius = 350,
 		thickness = 15,
 		start_angle = 30,
 		end_angle = 150,
-		from_middle = true,
-		backwards = true,
-		title = '',
-		draw_gauge_min = false,
-		draw_gauge_max = true,
-		draw_gauge_length = 50
+		backwards = true
 	},
 	{
 		name = 'upspeedf',
@@ -258,58 +223,41 @@ settings_table = {
 		fg_colour = default_color,
 		fg_alpha = default_alpha,
 		x = default_center_x, y = default_center_y,
-		radius = 360,
+		radius = 370,
 		thickness = 15,
 		start_angle = 30,
 		end_angle = 150,
-		from_middle = true,
-		backwards = true,
-		title = '',
-		draw_gauge_min = false,
-		draw_gauge_max = false,
-		draw_gauge_length = 50
+		backwards = true
 	},
 	{
 		name = 'diskio_read',
 		arg  = '',
-		max  = 100e6,
+		max  = 50e6,
 		bg_colour = default_color,
 		bg_alpha = 0.2,
 		fg_colour = default_color,
 		fg_alpha = default_alpha,
 		x = default_center_x, y = default_center_y,
-		radius = 343,
+		radius = 350,
 		thickness = 15,
 		start_angle = 210,
 		end_angle = 330,
-		from_middle = true,
-		backwards = false,
-		title = '',
-		draw_gauge_txt = true,
-		draw_gauge_min = false,
-		draw_gauge_max = true,
-		draw_gauge_length = 50
+		backwards = false
 	},
 	{
 		name = 'diskio_write',
 		arg  = '',
-		max  = 100e6,
+		max  = 50e6,
 		bg_colour = default_color,
 		bg_alpha = 0.2,
 		fg_colour = default_color,
 		fg_alpha = default_alpha,
 		x = default_center_x, y = default_center_y,
-		radius = 360,
+		radius = 370,
 		thickness = 15,
 		start_angle = 210,
 		end_angle = 330,
-		from_middle = true,
-		backwards = false,
-		title = '',
-		draw_gauge_txt = false,
-		draw_gauge_min = false,
-		draw_gauge_max = false,
-		draw_gauge_length = 50
+		backwards = false
 	}
 	-- {
 	-- 	name = 'diskio_read',
@@ -365,86 +313,6 @@ function draw_ring(cr,t,pt)
 	cairo_set_source_rgba(cr,rgb_to_r_g_b(fgc,fga))
 	cairo_stroke(cr)
 end
-
-function draw_ring2(cr, value, setting)
-	local function draw_gauge(cr,setting)
-		cairo_set_line_width(cr, 1)
-		local max_x_i = clock_x + (setting['radius'] - setting['draw_gauge_length']) * math.sin(setting['start_angle']*(2*math.pi/360))
-		local max_y_i = clock_y - (setting['radius'] - setting['draw_gauge_length']) * math.cos(setting['start_angle']*(2*math.pi/360))
-		local max_x_o = clock_x + setting['radius'] * math.sin(setting['start_angle']*(2*math.pi/360))
-		local max_y_o = clock_y - setting['radius'] * math.cos(setting['start_angle']*(2*math.pi/360))
-		local pat = cairo_pattern_create_linear(max_x_o,max_y_o,max_x_i,max_y_i)
-        cairo_pattern_add_color_stop_rgba(pat, 0, rgb_to_r_g_b(default_color,default_alpha))
-        cairo_pattern_add_color_stop_rgba(pat, 1, rgb_to_r_g_b(default_color,0))
-
-        cairo_set_source(cr,pat)
-
-		cairo_move_to(cr, max_x_i,max_y_i)
-		cairo_line_to(cr, max_x_o,max_y_o)
-		cairo_stroke(cr)
-		
-		if setting['from_middle'] then
-			cairo_set_line_width(cr, 1)
-			local max_x_i2 = clock_x + (setting['radius'] - setting['draw_gauge_length']) * math.sin(setting['end_angle']*(2*math.pi/360))
-			local max_y_i2 = clock_y - (setting['radius'] - setting['draw_gauge_length']) * math.cos(setting['end_angle']*(2*math.pi/360))
-			local max_x_o2 = clock_x + setting['radius'] * math.sin(setting['end_angle']*(2*math.pi/360))
-			local max_y_o2 = clock_y - setting['radius'] * math.cos(setting['end_angle']*(2*math.pi/360))
-			local pat2 = cairo_pattern_create_linear(max_x_o2,max_y_o2,max_x_i2,max_y_i2)
-			cairo_pattern_add_color_stop_rgba(pat2, 0, rgb_to_r_g_b(default_color,default_alpha))
-			cairo_pattern_add_color_stop_rgba(pat2, 1, rgb_to_r_g_b(default_color,0))
-			cairo_set_source(cr,pat2)
-			cairo_move_to(cr, max_x_i2,max_y_i2)
-			cairo_line_to(cr, max_x_o2,max_y_o2)
-			cairo_stroke(cr)
-		end
-
-		cairo_stroke(cr)
-	end
-	local w,h=conky_window.width,conky_window.height
-	local xc,yc,ring_r,ring_w,sa,ea=setting['x'],setting['y'],setting['radius'],setting['thickness'],setting['start_angle'],setting['end_angle']
-	local bgc, bga, fgc, fga=setting['bg_colour'], setting['bg_alpha'], setting['fg_colour'], setting['fg_alpha']
-
-	if value <= 0.00001*ring_r then
-		value = 0.00001*ring_r
-	end
-	
-	local angle_0=sa*(2*math.pi/360)-math.pi/2
-	local angle_f=ea*(2*math.pi/360)-math.pi/2
-	local t_arc=value*(angle_f-angle_0)
-	
-	-- Draw background ring
-	cairo_arc(cr,xc,yc,ring_r,angle_0,angle_f)
-	cairo_set_source_rgba(cr,rgb_to_r_g_b(bgc,bga))
-	cairo_set_line_width(cr,ring_w)
-	cairo_stroke(cr)
-	-- Draw title and gauges
-	if setting['draw_gauge_max'] then
-		draw_gauge(cr,setting)
-	end
-	
-	-- Draw indicator ring
-	cairo_set_line_width(cr,ring_w)
-	if setting['from_middle'] then
-		local middle=angle_f-((angle_f-angle_0)/2.0)
-		local angle_m0=middle-t_arc/2.0
-		local angle_mf=middle+t_arc/2.0
-		cairo_arc(cr,xc,yc,ring_r,angle_m0,angle_mf)
-	else
-		if setting['backwards'] then
-			cairo_arc(cr,xc,yc,ring_r,angle_f-t_arc,angle_f)
-		else
-			cairo_arc(cr,xc,yc,ring_r,angle_0,angle_0+t_arc)
-		end
-	end
-	cairo_set_source_rgba(cr,rgb_to_r_g_b(fgc,fga))
-	cairo_stroke(cr)
-end
-
-function draw_graph(cr, currentvalue, setting)
-	
-end
-
-
 
 function draw_clock_hands(cr,xc,yc)
 	local mins,hours,secs_arc,mins_arc,hours_arc
@@ -536,7 +404,7 @@ function conky_clock_rings()
 		if value == nil then value = 0 end
 		pct=value/pt['max']
 		
-		draw_ring2(cr,pct,pt)
+		draw_ring(cr,pct,pt)
 	end
 
 	-- Check that Conky has been running for at least 5s
