@@ -1,5 +1,6 @@
 --[[
 Clock Rings by londonali1010 (2009), modified by anotherkamila <kamila@vesmir.sk>
+and heavily modified by qwc <otte.mm@googlemail.com>
 
 This script draws percentage meters as rings, and also draws clock hands if you want! It is fully customisable; all options are described in the script. This script is based off a combination of my clock.lua script and my rings.lua script.
 
@@ -232,7 +233,9 @@ settings_table = {
 	{
 		name = 'downspeedf',
 		arg  = 'enp3s0',
-		max  = 10e3,
+		max  = 120e3,
+		unit = 'kB/s',
+		max_dynamic = true,
 		bg_colour = default_color,
 		bg_alpha = 0.2,
 		fg_colour = default_color,
@@ -245,6 +248,7 @@ settings_table = {
 		from_middle = true,
 		backwards = true,
 		title = '',
+		draw_gauge_txt = true,
 		draw_gauge_min = false,
 		draw_gauge_max = true,
 		draw_gauge_length = 50
@@ -252,7 +256,9 @@ settings_table = {
 	{
 		name = 'upspeedf',
 		arg  = 'enp3s0',
-		max  = 10e3,
+		max  = 120e3,
+		unit = 'kB/s',
+		max_dynamic = true,
 		bg_colour = default_color,
 		bg_alpha = 0.2,
 		fg_colour = default_color,
@@ -265,6 +271,7 @@ settings_table = {
 		from_middle = true,
 		backwards = true,
 		title = '',
+		draw_gauge_txt = true,
 		draw_gauge_min = false,
 		draw_gauge_max = false,
 		draw_gauge_length = 50
@@ -272,7 +279,10 @@ settings_table = {
 	{
 		name = 'diskio_read',
 		arg  = '',
-		max  = 100e6,
+		max  = 200e6,
+		unit = 'B/s',
+		logscale = false,
+		max_dynamic = true,
 		bg_colour = default_color,
 		bg_alpha = 0.2,
 		fg_colour = default_color,
@@ -293,7 +303,10 @@ settings_table = {
 	{
 		name = 'diskio_write',
 		arg  = '',
-		max  = 100e6,
+		max  = 200e6,
+		unit = 'B/s',
+		logscale = false,
+		max_dynamic = true,
 		bg_colour = default_color,
 		bg_alpha = 0.2,
 		fg_colour = default_color,
@@ -306,7 +319,7 @@ settings_table = {
 		from_middle = true,
 		backwards = false,
 		title = '',
-		draw_gauge_txt = false,
+		draw_gauge_txt = true,
 		draw_gauge_min = false,
 		draw_gauge_max = false,
 		draw_gauge_length = 50
@@ -332,41 +345,40 @@ clock_y = default_center_y
 clock_color = default_color
 clock_alpha = default_alpha
 
-require 'cairo'
+local cairo = require 'cairo'
+local CAIRO = cairo
 
 function rgb_to_r_g_b(colour,alpha)
 	return ((colour / 0x10000) % 0x100) / 255., ((colour / 0x100) % 0x100) / 255., (colour % 0x100) / 255., alpha
 end
-
-function draw_ring(cr,t,pt)
-	local w,h=conky_window.width,conky_window.height
-
-	local xc,yc,ring_r,ring_w,sa,ea=pt['x'],pt['y'],pt['radius'],pt['thickness'],pt['start_angle'],pt['end_angle']
-	local bgc, bga, fgc, fga=pt['bg_colour'], pt['bg_alpha'], pt['fg_colour'], pt['fg_alpha']
-
-	local angle_0=sa*(2*math.pi/360)-math.pi/2
-	local angle_f=ea*(2*math.pi/360)-math.pi/2
-	local t_arc=t*(angle_f-angle_0)
-
-	-- Draw background ring
-	
-	cairo_arc(cr,xc,yc,ring_r,angle_0,angle_f)
-	cairo_set_source_rgba(cr,rgb_to_r_g_b(bgc,bga))
-	cairo_set_line_width(cr,ring_w)
-	cairo_stroke(cr)
-	
-	-- Draw indicator ring
-
-	if pt['backwards'] then
-		cairo_arc(cr,xc,yc,ring_r,angle_f-t_arc,angle_f)
-	else
-		cairo_arc(cr,xc,yc,ring_r,angle_0,angle_0+t_arc)
+function ring_get_coordinates(value,setting,radius)
+	if radius == nil then
+		radius = setting["radius"]
 	end
-	cairo_set_source_rgba(cr,rgb_to_r_g_b(fgc,fga))
-	cairo_stroke(cr)
+	local coordinates = {}
+	coordinates["startarc"] = setting['start_angle']*(2*math.pi/360)
+	coordinates["endarc"] = setting['end_angle']*(2*math.pi/360)
+	coordinates["startx"] = clock_x + radius* math.sin(coordinates["startarc"])
+	coordinates["starty"] = clock_y - radius* math.cos(coordinates["startarc"])
+	coordinates["endx"] = clock_x + radius* math.sin(coordinates["endarc"])
+	coordinates["endy"] = clock_y - radius* math.cos(coordinates["endarc"])
+	coordinates["middle"] = coordinates["endarc"] - (coordinates["endarc"] - coordinates["startarc"])/2.0
+	coordinates["valuearc"] = value*(coordinates["endarc"] - coordinates["startarc"])
+	coordinates["vsx"] = clock_x + radius* math.sin(coordinates["middle"] - coordinates["valuearc"]/2.0)
+	coordinates["vsy"] = clock_y - radius* math.sin(coordinates["middle"] - coordinates["valuearc"]/2.0)
+	coordinates["vex"] = clock_x + radius* math.sin(coordinates["middle"] + coordinates["valuearc"]/2.0)
+	coordinates["vey"] = clock_y - radius* math.sin(coordinates["middle"] + coordinates["valuearc"]/2.0)
+	return coordinates
+end
+function get_arc_xy(r,arc)
+	local ret = {}
+	ret["x"] = clock_x + r*math.sin(arc)
+	ret["y"] =clock_y - r*math.cos(arc)
+	return ret
 end
 
-function draw_ring2(cr, value, setting)
+
+function draw_ring2(cr, percent, setting, value)
 	local function draw_gauge(cr,setting)
 		cairo_set_line_width(cr, 1)
 		local max_x_i = clock_x + (setting['radius'] - setting['draw_gauge_length']) * math.sin(setting['start_angle']*(2*math.pi/360))
@@ -397,20 +409,58 @@ function draw_ring2(cr, value, setting)
 			cairo_line_to(cr, max_x_o2,max_y_o2)
 			cairo_stroke(cr)
 		end
-
 		cairo_stroke(cr)
+		
+	end
+	local function find_dyn_max(value)
+		local max = 0
+		local i = 1
+		while i <= setting["max"] do
+			if i > value then 
+				max = i 
+				break 
+			end
+			i=i*10
+		end
+		if i >= setting["max"] then 
+			max = setting["max"]
+		end
+		if i < 1000 then
+			max = 1000
+		end
+		--print("blah")
+		local divide = 1
+		local byte = ""
+		if max >= 1000000 then
+			divide = 1000000
+			byte = "M"
+		else
+			if max > 1000 and max < 1000000 then
+				divide = 1000
+				byte = "k"
+			end
+		end
+		return max,divide,byte
 	end
 	local w,h=conky_window.width,conky_window.height
 	local xc,yc,ring_r,ring_w,sa,ea=setting['x'],setting['y'],setting['radius'],setting['thickness'],setting['start_angle'],setting['end_angle']
 	local bgc, bga, fgc, fga=setting['bg_colour'], setting['bg_alpha'], setting['fg_colour'], setting['fg_alpha']
 
-	if value <= 0.00001*ring_r then
-		value = 0.00001*ring_r
+	if setting["logscale"] then
+		percent = (math.log(value)-math.log(1))/(math.log(setting["max"])-math.log(1))
+	end
+	if setting["max_dynamic"] then
+		local m = find_dyn_max(value)
+		percent = value/m
+	end
+	
+	if percent <= 0.00001*ring_r then
+		percent = 0.00001*ring_r
 	end
 	
 	local angle_0=sa*(2*math.pi/360)-math.pi/2
 	local angle_f=ea*(2*math.pi/360)-math.pi/2
-	local t_arc=value*(angle_f-angle_0)
+	local t_arc=percent*(angle_f-angle_0)
 	
 	-- Draw background ring
 	cairo_arc(cr,xc,yc,ring_r,angle_0,angle_f)
@@ -420,6 +470,41 @@ function draw_ring2(cr, value, setting)
 	-- Draw title and gauges
 	if setting['draw_gauge_max'] then
 		draw_gauge(cr,setting)
+	end
+	if setting['draw_gauge_txt'] then
+		local function draw_gauge_text (cr,setting)
+			cairo_set_source_rgba(cr,rgb_to_r_g_b(0x000000,0.5))
+			local co = ring_get_coordinates(percent,setting,setting["radius"]-5)
+			cairo_select_font_face(cr,"Helvetica",0,0)
+			cairo_set_font_size(cr,12)
+			cairo_save(cr)
+			local arc = 0
+			if co["startarc"] > math.pi then
+				local xy = get_arc_xy(setting["radius"]-5,co["endarc"] - 8*(2*math.pi/360))
+				cairo_move_to(cr, xy["x"],xy["y"])
+				arc = co["endarc"] - 3*(2*math.pi/360)
+			else
+				cairo_move_to(cr,co["startx"] ,co["starty"] )
+				arc = co["startarc"]+2*(2*math.pi/360)
+			end
+			cairo_rotate(cr,arc)
+			local max, divide, byte = find_dyn_max(value)
+			local unit = setting["unit"]
+			if unit == "kB/s" then
+				unit = "B/s"
+				if byte == "" then
+					byte = "k"
+				else 
+					if byte == "k" then
+						byte = "M"
+					end
+				end
+			end
+			cairo_show_text(cr,string.format("%.0f %s%s",value/divide, byte, unit))
+			cairo_restore(cr)
+			cairo_stroke(cr)
+		end
+		draw_gauge_text(cr,setting)
 	end
 	
 	-- Draw indicator ring
@@ -525,18 +610,18 @@ function draw_clock_gauges(cr, xc, yc)
 end
 
 function conky_clock_rings()
-	local function setup_rings(cr,pt)
+	local function setup_rings(cr,setting)
 		local str=''
 		local value=0
 
-		str=string.format('${%s %s}',pt['name'],pt['arg'])
+		str=string.format('${%s %s}',setting['name'],setting['arg'])
 		str=conky_parse(str)
 
 		value=tonumber(str)
 		if value == nil then value = 0 end
-		pct=value/pt['max']
+		percent=value/setting['max']
 		
-		draw_ring2(cr,pct,pt)
+		draw_ring2(cr,percent,setting,value)
 	end
 
 	-- Check that Conky has been running for at least 5s
