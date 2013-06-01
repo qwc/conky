@@ -3,5 +3,7 @@ conky
 
 My conky configs and scripts.
 
-The conkyrc file in the root dir of the repo is a link to the currently used theme sub directory on my disk. 
-Git seems to import the file the link is pointing at, so don't wonder about that. ;)
+centerclock radius500px 
+My first try getting conky running. A Clock around the center of the screen displaying the arch linux logo 
+and between the clock and the logo some circular bars displaying cpu cores, ram and swap and bus usage 
+(network and sata). At the beginning real circular but in the end I like the elliptic look quite more...
