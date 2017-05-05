@@ -1,0 +1,143 @@
+use_xft yes
+xftfont Ubuntu:size=8
+update_interval 1
+total_run_times 0
+
+text_buffer_size 2048
+double_buffer yes
+no_buffers yes
+
+#own_window yes
+#own_window_color 3D3D3D
+#own_window_type override
+#own_window_transparent yes
+#own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+
+# -- Window specifications -- #
+
+own_window_class Conky
+own_window yes
+own_window_type normal
+own_window_transparent yes
+own_window_argb_visual yes
+own_window_argb_value 0
+own_window_colour 000000
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+
+
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders yes
+
+border_margin 0
+default_color ffffff
+default_shade_color black
+default_outline_color black
+default_bar_size 100 8
+
+uppercase yes
+override_utf8_locale no
+
+alignment bottom_left
+gap_x 55
+gap_y 0
+
+minimum_size 300 850
+
+short_units yes
+pad_percents 2
+
+
+####################################################################################################
+#  Output
+####################################################################################################
+
+own_window_argb_value 0
+own_window_argb_visual yes
+own_window_colour 000000
+TEXT
+${voffset 4}${font Ubuntu:size=36}${alignc}${time %H}:${time %M} ${time %p}${font}
+${voffset 4}${font Ubuntu:size=12}${alignc}${time %A} ${time %B} ${time %e}, ${time %Y}${font}
+
+${font Ubuntu:size=10}${voffset 2}S Y S T E M   ${hr 2}${font}
+${voffset 8}Hostname: ${alignr}${nodename}
+Kernel: ${alignr}${exec uname} ${exec uname -r}
+Uptime: ${alignr}${uptime}
+
+${font Ubuntu:size=10}P R O C E S S O R S  ${hr 2}${font}
+
+CPU Freq: $alignr${freq}MHz
+CPU Temp: $alignr${execi 1 sensors coretemp-isa-0000 | grep Core\ 0:| cut -c 16-19} C
+#MB Temp: ${alignr}${execi 1 sensors atk0110-acpi-0 | grep MB\ Temperature:\ | cut -c 22-25}°C
+#Core 0:       +47
+
+${font StyleBats:size=20}A${font}${offset 8}${voffset -12}CPU Core 1: ${alignr}${offset -10}${cpu cpu1}%${alignr}${cpubar cpu1}
+${offset 30}CPU Core 2: ${alignr}${offset -10}${cpu cpu2}%${alignr}${cpubar cpu2}
+${offset 30}CPU Core 3: ${alignr}${offset -10}${cpu cpu3}%${alignr}${cpubar cpu3}
+${offset 30}CPU Core 4: ${alignr}${offset -10}${cpu cpu4}%${alignr}${cpubar cpu4}
+${offset 30}CPU Core 5: ${alignr}${offset -10}${cpu cpu5}%${alignr}${cpubar cpu5}
+${offset 30}CPU Core 6: ${alignr}${offset -10}${cpu cpu6}%${alignr}${cpubar cpu6}
+${offset 30}CPU Core 7: ${alignr}${offset -10}${cpu cpu7}%${alignr}${cpubar cpu7}
+${offset 30}CPU Core 8: ${alignr}${offset -10}${cpu cpu8}%${alignr}${cpubar cpu8}
+${offset 30}CPU ALL: ${alignr}${offset -10}${cpu cpu}%${alignr}${cpubar cpu}
+
+Top Processes${alignr}  proc id       cpu%      mem%
+${voffset 4}     1  -  ${top name 1}${alignr}${goto 170}${top pid 1} ${goto 222}${top cpu 1} ${goto 274}${top mem 1}
+     2  -  ${top name 2}${alignr}${goto 170}${top pid 2} ${goto 222}${top cpu 2} ${goto 274}${top mem 2}
+     3  -  ${top name 3}${alignr}${goto 170}${top pid 3} ${goto 222}${top cpu 3} ${goto 274}${top mem 3}
+     4  -  ${top name 4}${alignr}${goto 170}${top pid 4} ${goto 222}${top cpu 4} ${goto 274}${top mem 4}
+     5  -  ${top name 5}${alignr}${goto 170}${top pid 5} ${goto 222}${top cpu 5} ${goto 274}${top mem 5}
+
+${font Ubuntu:size=10}M E M O R Y   ${hr 2}${font}
+
+${font StyleBats:size=20}m${font}${offset 8}${voffset -12}RAM: ${alignr}${offset -10}${mem} / ${memmax}${alignr}${membar}
+${offset 30}Swap: ${alignr}${offset -10}${swap} / ${swapmax}${alignr}${swapbar}
+
+Top Processes${alignr}  proc id       cpu%      mem%
+${voffset 4}     1  -  ${top_mem name 1}${alignr}${goto 170}${top_mem pid 1} ${goto 222}${top_mem cpu 1} ${goto 274}${top_mem mem 1}
+     2  -  ${top_mem name 2}${alignr}${goto 170}${top_mem pid 2} ${goto 222}${top_mem cpu 2} ${goto 274}${top_mem mem 2}
+     3  -  ${top_mem name 3}${alignr}${goto 170}${top_mem pid 3} ${goto 222}${top_mem cpu 3} ${goto 274}${top_mem mem 3}
+     4  -  ${top_mem name 4}${alignr}${goto 170}${top_mem pid 4} ${goto 222}${top_mem cpu 4} ${goto 274}${top_mem mem 4}
+     5  -  ${top_mem name 5}${alignr}${goto 170}${top_mem pid 5} ${goto 222}${top_mem cpu 5} ${goto 274}${top_mem mem 5}
+
+${font Ubuntu:size=10}D R I V E S   ${hr 2}${font}
+
+${font StyleBats:size=20}e${font}${offset 8}${voffset -12}Root  -  SSD: ${alignr}${offset -10}${fs_used /} / ${fs_size /}${alignr}${fs_bar /}
+${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sda2}${alignr}${diskiograph_read sda2 8,100}
+${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sda2}${alignr}${diskiograph_write sda2 8,100}
+
+${font StyleBats:size=20}e${font}${offset 8}${voffset -12}Home  -  SSD: ${alignr}${offset -10}${fs_used /home} / ${fs_size /home}${alignr}${fs_bar /home}
+${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sda3}${alignr}${diskiograph_read sda3 8,100}
+${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sda3}${alignr}${diskiograph_write sda3 8,100}
+
+${font StyleBats:size=20}4${font}${offset 8}${voffset -12}Storage  -  HDD: ${alignr}${offset -10}${fs_used /media/data} / ${fs_size /media/data}${alignr}${fs_bar /media/data}
+${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sdc1}${alignr}${diskiograph_read sdc1 8,100}
+${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdc1}${alignr}${diskiograph_write sdc1 8,100}
+
+${font StyleBats:size=20}4${font}${offset 8}${voffset -12}Games  -  HDD: ${alignr}${offset -10}${fs_used /media/games} / ${fs_size /media/games}${alignr}${fs_bar /media/games}
+${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sdb1}${alignr}${diskiograph_read sdb1 8,100}
+${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdb1}${alignr}${diskiograph_write sdb1 8,100}
+
+${font StyleBats:size=20}4${font}${offset 8}${voffset -12}removeable - HDD: ${alignr}/dev/sdd
+#${alignr}${offset -10}${fs_used /dev/sdd1} / ${fs_size /dev/sdd1}${alignr}${fs_bar /dev/sdd1}
+${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sdd}${alignr}${diskiograph_read sdd 8,100}
+${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdd}${alignr}${diskiograph_write sdd 8,100}
+
+${font Ubuntu:size=10}N E T W O R K   ${hr 2}${font}
+
+#Wifi Ip (wlan0): ${alignr}${addr wlan0}
+Public Ip: #${alignr}${execi 3600 wget --timeout=10 -O - http://ip.tupeux.com | tail}
+
+${font StyleBats:size=20}q${font}${offset 8}${voffset -12}LAN Up: ${alignr}${offset -10$}${upspeed enp3s0}${alignr}${upspeedgraph enp3s0 8,100}
+${offset 30}LAN Down: ${alignr}${offset -10$}${downspeed enp3s0}${alignr}${downspeedgraph enp3s0 8,100}
+
+#${font StyleBats:size=20}q${font}${offset 8}${voffset -12}Wifi Up: ${alignr}${offset -10$}${upspeed enp3s0}${alignr}${upspeedgraph enp3s0 8,100}
+#${offset 30}Wifi Down: ${alignr}${offset -10$}${downspeed enp3s0}${alignr}${downspeedgraph enp3s0 8,100}
+
+#Stark (IP: 192.168.42.12): ${alignr}${execi 10 ~/bin/pingtest stark-wifi}
+#Harvey (IP: 192.168.42.13): ${alignr}${execi 10 ~/bin/pingtest harvey-wifi}
+#Chiana (IP: 192.168.42.14): ${alignr}${execi 10 ~/bin/pingtest chiana-wifi}
+
+#linuxfanatic.no-ip.biz: ${alignr}${execi 10 ~/bin/getip linuxfanatic.no-ip.biz}
+#linuxfanatic.ddns.net: ${alignr}${execi 10 ~/bin/getip linuxfanatic.ddns.net}

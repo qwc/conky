@@ -1,0 +1,37 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                CONKY CONFIG BY ROBERT PARTRIDGE ver 0.4
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This ISN'T a document to explain how to install Conky to a computer.
+There are tons of how-to's on the internet on how to do it - Google is
+your friend!  To use this Conky config after you have Conky installed,
+you need to do the following.
+
+1 - Extract the 2 folders (.fonts and bin) and the .conkyrc file
+    included here to your home folder.
+
+2 - The ".fonts" folder contains two fonts that you will need for the
+    symbols used in the config.  The font used for text on this config
+    is the Ubuntu font.  If you do not have this font, it is freely
+    available to download from the web and is easy to find.  If you
+    want to use a different font, you'll need to change the font in
+    all of the files in the ".conky" folder.
+
+3 - The ".conkyrc" file contains the actual conky configuration.  This
+    file is hidden because it begins with a "." so you'll need to be
+    able to view hidden files in order to see it in a file manager.
+
+4 - The "bin" directory has three bash scripts.  The script "callconky"
+    is used to launch all of the various Conky configs at once.  The
+    script "pingtest" is for checking that a computer is online (aka 
+    responds to a ping).  The script "getip" returns the IP address for
+    a hostname.  Be sure these files have +x permissions.
+
+This config is currently running on a 1280x1024 screen with a 32px
+panel on the bottom, so it's positioned to account for this space.
+
+I'd very much be interested to see any modifications anyone makes to
+this config for their personal use.  If you make any changes and would
+like to share them you can find me on Google+ at the link below:
+
+https://plus.google.com/+RobertPartridge/
