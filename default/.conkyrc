@@ -39,8 +39,8 @@ default_bar_size 100 8
 uppercase yes
 override_utf8_locale no
 
-alignment bottom_left
-gap_x 55
+alignment bottom_right
+gap_x 1275
 gap_y 0
 
 minimum_size 300 850
