@@ -117,12 +117,17 @@ ${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdc1}${alignr}${disk
 
 ${font StyleBats:size=20}4${font}${offset 8}${voffset -12}Games  -  HDD: ${alignr}${offset -10}${fs_used /media/games} / ${fs_size /media/games}${alignr}${fs_bar /media/games}
 ${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sdb1}${alignr}${diskiograph_read sdb1 8,100}
-${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdb1}${alignr}${diskiograph_write sdb1 8,100}
+${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdb1}${alignr}${diskiograph_write sdb1 8,100}${if_existing /dev/sdd1}
 
 ${font StyleBats:size=20}4${font}${offset 8}${voffset -12}removeable - HDD: ${alignr}/dev/sdd
 #${alignr}${offset -10}${fs_used /dev/sdd1} / ${fs_size /dev/sdd1}${alignr}${fs_bar /dev/sdd1}
 ${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sdd}${alignr}${diskiograph_read sdd 8,100}
-${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdd}${alignr}${diskiograph_write sdd 8,100}
+${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdd}${alignr}${diskiograph_write sdd 8,100}${endif}${if_existing /dev/sde1}
+
+${font StyleBats:size=20}4${font}${offset 8}${voffset -12}removeable - HDD: ${alignr}/dev/sde
+#${alignr}${offset -10}${fs_used /dev/sdd1} / ${fs_size /dev/sdd1}${alignr}${fs_bar /dev/sdd1}
+${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sde}${alignr}${diskiograph_read sde 8,100}
+${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sde}${alignr}${diskiograph_write sde 8,100}${endif}
 
 ${font Ubuntu:size=10}N E T W O R K   ${hr 2}${font}
 

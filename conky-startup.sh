@@ -1,4 +1,4 @@
-sleep 20s
+#sleep 20s
 killall conky
 # cd ""
-conky -c "conkyrc" &
+conky -c "conkyrc" > /dev/null 2>&1 &
