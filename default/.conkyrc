@@ -80,6 +80,7 @@ ${offset 30}CPU Core 5: ${alignr}${offset -10}${cpu cpu5}%${alignr}${cpubar cpu5
 ${offset 30}CPU Core 6: ${alignr}${offset -10}${cpu cpu6}%${alignr}${cpubar cpu6}
 ${offset 30}CPU Core 7: ${alignr}${offset -10}${cpu cpu7}%${alignr}${cpubar cpu7}
 ${offset 30}CPU Core 8: ${alignr}${offset -10}${cpu cpu8}%${alignr}${cpubar cpu8}
+
 ${offset 30}CPU ALL: ${alignr}${offset -10}${cpu cpu}%${alignr}${cpubar cpu}
 
 Top Processes${alignr}  proc id       cpu%      mem%
@@ -104,21 +105,21 @@ ${voffset 4}     1  -  ${top_mem name 1}${alignr}${goto 170}${top_mem pid 1} ${g
 ${font Ubuntu:size=10}D R I V E S   ${hr 2}${font}
 
 ${font StyleBats:size=20}e${font}${offset 8}${voffset -12}Root: ${alignr}${offset -10}${fs_used /} / ${fs_size /}${alignr}${fs_bar /}
-${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read mapper/vgroot-root}${alignr}${diskiograph_read mapper/vgroot-root 8,100}
-${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write mapper/vgroot-root}${alignr}${diskiograph_write mapper/vgroot-root 8,100}
+${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read dm-0}${alignr}${diskiograph_read dm-0 8,100}
+${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write dm-0}${alignr}${diskiograph_write dm-0 8,100}
 
 ${font StyleBats:size=20}e${font}${offset 8}${voffset -12}Home: ${alignr}${offset -10}${fs_used /home} / ${fs_size /home}${alignr}${fs_bar /home}
-${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read mapper/vgroot-home}${alignr}${diskiograph_read mapper/vgroot-home 8,100}
-${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write mapper/vgroot-home}${alignr}${diskiograph_write mapper/vgroot-home 8,100}
+${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read dm-2}${alignr}${diskiograph_read dm-2 8,100}
+${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write dm-2}${alignr}${diskiograph_write dm-2 8,100}
 
-#${font StyleBats:size=20}4${font}${offset 8}${voffset -12}Storage  -  HDD: ${alignr}${offset -10}${fs_used /media/data} / ${fs_size /media/data}${alignr}${fs_bar /media/data}
-#${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sdc1}${alignr}${diskiograph_read sdc1 8,100}
-#${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdc1}${alignr}${diskiograph_write sdc1 8,100}
-
+${font StyleBats:size=20}4${font}${offset 8}${voffset -12}Storage  -  HDD: ${alignr}${offset -10}${fs_used /mnt/data} / ${fs_size /mnt/data}${alignr}${fs_bar /mnt/data}
+${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sdb1}${alignr}${diskiograph_read sdb1 8,100}
+${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdb1}${alignr}${diskiograph_write sdb1 8,100}
+#
 #${font StyleBats:size=20}4${font}${offset 8}${voffset -12}Games  -  HDD: ${alignr}${offset -10}${fs_used /media/games} / ${fs_size /media/games}${alignr}${fs_bar /media/games}
 #${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sdb1}${alignr}${diskiograph_read sdb1 8,100}
 #${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdb1}${alignr}${diskiograph_write sdb1 8,100}
-
+#
 #${font StyleBats:size=20}4${font}${offset 8}${voffset -12}removeable - HDD: ${alignr}/dev/sdd
 ##${alignr}${offset -10}${fs_used /dev/sdd1} / ${fs_size /dev/sdd1}${alignr}${fs_bar /dev/sdd1}
 #${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sdd}${alignr}${diskiograph_read sdd 8,100}
@@ -139,6 +140,7 @@ ${offset 30}LAN Down: ${alignr}${offset -10$}${downspeed eno1}${alignr}${downspe
 #Stark (IP: 192.168.42.12): ${alignr}${execi 10 ~/bin/pingtest stark-wifi}
 #Harvey (IP: 192.168.42.13): ${alignr}${execi 10 ~/bin/pingtest harvey-wifi}
 #Chiana (IP: 192.168.42.14): ${alignr}${execi 10 ~/bin/pingtest chiana-wifi}
+
 
 #linuxfanatic.no-ip.biz: ${alignr}${execi 10 ~/bin/getip linuxfanatic.no-ip.biz}
 #linuxfanatic.ddns.net: ${alignr}${execi 10 ~/bin/getip linuxfanatic.ddns.net}
