@@ -1,62 +1,75 @@
-use_xft yes
-xftfont Ubuntu:size=8
-update_interval 1
-total_run_times 0
+require 'io'
 
-text_buffer_size 2048
-double_buffer yes
-no_buffers yes
+function conky_pre_exec(cmd)
+    local handle = io.popen(cmd)
+    local output = handle:read("*a")
+    handle:close()
+    return output
+end
 
-#own_window yes
-#own_window_color 3D3D3D
-#own_window_type override
-#own_window_transparent yes
-#own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+conky.config = {
+	use_xft = true,
+	font = 'Ubuntu:size=8',
+	update_interval = 1,
+	total_run_times = 0,
 
-# -- Window specifications -- #
+	text_buffer_size = 2048,
+	double_buffer = true,
+	no_buffers = true,
 
-own_window_class Conky
-own_window yes
-own_window_type normal
-own_window_transparent yes
-own_window_argb_visual yes
-own_window_argb_value 0
-own_window_colour 000000
-own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+--own_window yes
+--own_window_color 3D3D3D
+--own_window_type override
+--own_window_transparent yes
+--own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 
+-- -- Window specifications -- #
 
-draw_shades no
-draw_outline no
-draw_borders no
-draw_graph_borders yes
-
-border_margin 0
-default_color ffffff
-default_shade_color black
-default_outline_color black
-default_bar_size 100 8
-
-uppercase yes
-override_utf8_locale no
-
-alignment bottom_right
-gap_x 1550
-gap_y 0
-
-minimum_size 300 850
-
-short_units yes
-pad_percents 2
+	own_window_class = 'Conky',
+	own_window = true,
+	own_window_type = 'normal',
+	own_window_transparent = true,
+	own_window_argb_visual = true,
+	own_window_argb_value = 0,
+	own_window_colour = '#000000',
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
 
 
-####################################################################################################
-#  Output
-####################################################################################################
+	draw_shades = false,
+	draw_outline = false,
+	draw_borders = false,
+	draw_graph_borders = true,
 
-own_window_argb_value 0
-own_window_argb_visual yes
-own_window_colour 000000
-TEXT
+	border_margin = '0',
+	default_color = '#ffffff',
+	default_shade_color = 'black',
+	default_outline_color = 'black',
+	default_bar_width = 100, default_bar_height = 8,
+
+	uppercase = true,
+	override_utf8_locale = false,
+
+	alignment = 'bottom_right',
+	gap_x = 1550,
+	gap_y = 0,
+
+	minimum_width = 300, minimum_height = 850,
+
+	short_units = true,
+	pad_percents = 2,
+
+
+--###################################################################################################
+--  Output
+--###################################################################################################
+
+	own_window_argb_value = 0,
+	own_window_argb_visual = true,
+	own_window_colour = '#000000',
+    template0 = conky_pre_exec("~/source/private/conky/default/bin/disks.py"),
+};
+
+conky.text = [[
 ${voffset 4}${font Ubuntu:size=36}${alignc}${time %H}:${time %M} ${time %p}${font}
 ${voffset 4}${font Ubuntu:size=12}${alignc}${time %A} ${time %B} ${time %e}, ${time %Y}${font}
 
@@ -104,27 +117,7 @@ ${voffset 4}     1  -  ${top_mem name 1}${alignr}${goto 170}${top_mem pid 1} ${g
 
 ${font Ubuntu:size=10}D R I V E S   ${hr 2}${font}
 
-${font StyleBats:size=20}e${font}${offset 8}${voffset -12}Root: ${alignr}${offset -10}${fs_used /} / ${fs_size /}${alignr}${fs_bar /}
-${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read dm-0}${alignr}${diskiograph_read dm-0 8,100}
-${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write dm-0}${alignr}${diskiograph_write dm-0 8,100}
-
-${font StyleBats:size=20}e${font}${offset 8}${voffset -12}Home: ${alignr}${offset -10}${fs_used /home} / ${fs_size /home}${alignr}${fs_bar /home}
-${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read dm-2}${alignr}${diskiograph_read dm-2 8,100}
-${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write dm-2}${alignr}${diskiograph_write dm-2 8,100}
-
-${font StyleBats:size=20}4${font}${offset 8}${voffset -12}Storage  -  HDD: ${alignr}${offset -10}${fs_used /mnt/data} / ${fs_size /mnt/data}${alignr}${fs_bar /mnt/data}
-${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sdb1}${alignr}${diskiograph_read sdb1 8,100}
-${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdb1}${alignr}${diskiograph_write sdb1 8,100}
-#
-#${font StyleBats:size=20}4${font}${offset 8}${voffset -12}Games  -  HDD: ${alignr}${offset -10}${fs_used /media/games} / ${fs_size /media/games}${alignr}${fs_bar /media/games}
-#${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sdb1}${alignr}${diskiograph_read sdb1 8,100}
-#${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdb1}${alignr}${diskiograph_write sdb1 8,100}
-#
-#${font StyleBats:size=20}4${font}${offset 8}${voffset -12}removeable - HDD: ${alignr}/dev/sdd
-##${alignr}${offset -10}${fs_used /dev/sdd1} / ${fs_size /dev/sdd1}${alignr}${fs_bar /dev/sdd1}
-#${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sdd}${alignr}${diskiograph_read sdd 8,100}
-#${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdd}${alignr}${diskiograph_write sdd 8,100}
-
+${template0}
 ${font Ubuntu:size=10}N E T W O R K   ${hr 2}${font}
 
 #Wifi Ip (wlan0): ${alignr}${addr wlan0}
@@ -144,3 +137,4 @@ ${offset 30}LAN Down: ${alignr}${offset -10$}${downspeed eno1}${alignr}${downspe
 
 #linuxfanatic.no-ip.biz: ${alignr}${execi 10 ~/bin/getip linuxfanatic.no-ip.biz}
 #linuxfanatic.ddns.net: ${alignr}${execi 10 ~/bin/getip linuxfanatic.ddns.net}
+]];
