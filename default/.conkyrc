@@ -1,3 +1,12 @@
+require 'io'
+
+function conky_pre_exec(cmd)
+    local handle = io.popen(cmd)
+    local output = handle:read("*a")
+    handle:close()
+    return output
+end
+
 conky.config = {
 	use_xft = true,
 	font = 'Ubuntu:size=8',
@@ -58,6 +67,7 @@ conky.config = {
 	own_window_argb_value = 0,
 	own_window_argb_visual = true,
 	own_window_colour = '#000000',
+	template0 = conky_pre_exec("~/source/conky/default/bin/disks.py")
 };
 
 conky.text = [[
@@ -107,33 +117,7 @@ ${voffset 4}     1  -  ${top_mem name 1}${alignr}${goto 170}${top_mem pid 1} ${g
 
 ${font Ubuntu:size=10}D R I V E S   ${hr 2}${font}
 
-# ${execpi 1 ~/source/conky/default/bin/disks.py}
-${font StyleBats:size=20}e${font}${offset 8}${voffset -12}Root  -  SSD: ${alignr}${offset -10}${fs_used /} / ${fs_size /}${alignr}${fs_bar /}
-${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read nvme0n1p6}${alignr}${diskiograph_read nvme0n1p6 8,100}
-${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write nvme0n1p6}${alignr}${diskiograph_write nvme0n1p6 8,100}
-
-${font StyleBats:size=20}e${font}${offset 8}${voffset -12}Home  -  SSD: ${alignr}${offset -10}${fs_used /home} / ${fs_size /home}${alignr}${fs_bar /home}
-${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read nvme0n1p7}${alignr}${diskiograph_read nvme0n1p7 8,100}
-${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write nvme0n1p7}${alignr}${diskiograph_write nvme0n1p7 8,100}
-
-${font StyleBats:size=20}e${font}${offset 8}${voffset -12}Storage  -  SSD: ${alignr}${offset -10}${fs_used /media/data2} / ${fs_size /media/data2}${alignr}${fs_bar /media/data2}
-${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sdc1}${alignr}${diskiograph_read sdc1 8,100}
-${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdc1}${alignr}${diskiograph_write sdc1 8,100}
-
-${font StyleBats:size=20}e${font}${offset 8}${voffset -12}Storage  -  SSD: ${alignr}${offset -10}${fs_used /media/ssd} / ${fs_size /media/ssd}${alignr}${fs_bar /media/ssd}
-${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sda2}${alignr}${diskiograph_read sda2 8,100}
-${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sda2}${alignr}${diskiograph_write sda2 8,100}${if_existing /dev/sde1}
-
-${font StyleBats:size=20}4${font}${offset 8}${voffset -12}removeable - HDD: ${alignr}/dev/sde
-#${alignr}${offset -10}${fs_used /dev/sdd1} / ${fs_size /dev/sdd1}${alignr}${fs_bar /dev/sdd1}
-${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sde}${alignr}${diskiograph_read sde 8,100}
-${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sde}${alignr}${diskiograph_write sde 8,100}${endif}${if_existing /dev/sdf1}
-
-${font StyleBats:size=20}4${font}${offset 8}${voffset -12}removeable - HDD: ${alignr}/dev/sdf
-#${alignr}${offset -10}${fs_used /dev/sde1} / ${fs_size /dev/sde1}${alignr}${fs_bar /dev/sde1}
-${offset 30}I/O Read: ${alignr}${offset -10}${diskio_read sdf}${alignr}${diskiograph_read sdf 8,100}
-${offset 30}I/O Write: ${alignr}${offset -10}${diskio_write sdf}${alignr}${diskiograph_write sdf 8,100}${endif}
-
+${template0}
 ${font Ubuntu:size=10}N E T W O R K   ${hr 2}${font}
 
 #Wifi Ip (wlan0): ${alignr}${addr wlan0}
