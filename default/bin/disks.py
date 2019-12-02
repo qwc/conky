@@ -12,9 +12,10 @@ def replace_multi(string, value_dict: dict):
 
 
 template = """${font StyleBats:size=20}tpl_icon${font}${offset 8}${voffset -12}tpl_mp: ${alignr}${offset -10}${fs_used tpl_mp} / ${fs_size tpl_mp}${alignr}${fs_bar tpl_mp}
-# ${offset 30}I/O R: ${alignr}${offset -10}${diskio_read tpl_dev}${alignr}${diskiograph_read tpl_dev 8,100}
-# ${offset 30}I/O W: ${alignr}${offset -10}${diskio_write tpl_dev}${alignr}${diskiograph_write tpl_dev 8,100}
-${offset 30}I/O W: ${diskio_write tpl_dev}${offset 10}${diskiograph_write tpl_dev 8,75} R: ${alignr}${offset -10}${diskio_read tpl_dev}${alignr}${diskiograph_read tpl_dev 8,75}
+${offset 30}I/O R: ${alignr}${offset -10}${diskio_read tpl_dev}${alignr}${diskiograph_read tpl_dev 8,100}
+${offset 30}I/O W: ${alignr}${offset -10}${diskio_write tpl_dev}${alignr}${diskiograph_write tpl_dev 8,100}
+# ${offset 30}I/O ${alignr}${offset -30}W: ${alignr}${offset -10}${diskio_write tpl_dev}${alignr}${offset -30}${diskiograph_write tpl_dev 8,50 -l} \
+# ${alignr}${offset -20}R: ${alignr}${offset -10}${diskio_read tpl_dev}${alignr}${diskiograph_read tpl_dev 8,50 -l}
 
 """  # noqa
 
